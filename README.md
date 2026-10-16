@@ -3,7 +3,11 @@ A direct sampling SDR receiver, largely based on the receiver section of the uDS
 
 # uDSR vs uDST
 
-uDSR comes out about 1.8 dB more sensitive than uDST, but it gives up 12 dB of clipping headroom. The 10-bit ADC's 10 dB worse SNR is more than paid back by the halved full-scale voltage and the 6 dB of extra transformer gain.
+uDSR comes out about 1.8 dB more sensitive than uDST, but it gives up 12dB of clipping headroom. The 10-bit ADC's 10 dB worse SNR is more than paid back by the halved full-scale voltage and the 6 dB of extra transformer gain.
+
+# Summary
+
+The receivers have essentially the same sensitivity but uDST has about 12dB more dynamic range.
 
 **Assumptions:**
 - Antenna-referred, 50 Ω.
@@ -43,10 +47,10 @@ uDSR comes out about 1.8 dB more sensitive than uDST, but it gives up 12 dB of c
 
 **Notes:**
 
-- **Both radios are ADC-limited**, so extra analog gain still improves the NF, but every dB of gain costs a dB of headroom. If uDSR used uDST's 4:1 transformer instead of the 16:1, it would come out at about 17.6 dB NF with −20.5 dBm full scale. The 16:1 choice buys 5.5 dB of NF for 6 dB of headroom, which is a good trade.
+- **Both radios are ADC-limited**, so extra analog gain still improves the NF, but every dB of gain costs a dB of headroom. If uDSR used uDST's 4:1 transformer instead of the 16:1, it would come out at about 17.6 dB NF with −20.5 dBm full scale. The 16:1 choice buys 5.5 dB of NF for 6 dB of headroom.
 - **In practice, below about 14 MHz band noise swamps both radios.** At 10 m, galactic noise (Fa around 18–19 dB) sits about 5 dB above uDST's receiver noise and about 7 dB above uDSR's. Receiver noise then adds roughly 1.2 dB and 0.8 dB respectively to what you hear, before any antenna or feedline loss.
 - **Not included:**
-  - ADC SFDR and spurs (you have 88 dBc for the AD9236; I don't have a figure for the 10-bit part).
+  - ADC SFDR and spurs (88 dBc for the AD9236).
   - MMIC IP3 limits.
   - Digital-chain quantisation.
-- **On quantisation:** the uDSR noise floor sits about 10 dB higher relative to ADC full scale than uDST's. So whatever CIC output shift you choose, check that it puts the noise floor several LSBs above 16-bit quantisation, as uDST's >>22 does. If it does, the output word won't degrade any of the figures above.
+
