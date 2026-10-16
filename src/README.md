@@ -4,8 +4,7 @@ This is an Arduino project for the Pi Pico 2. You will need the Pico Arduino cor
 https://github.com/earlephilhower/arduino-pico
 
 ## Libraries
- * Install the Tiny4lOLED library:
- ** https://github.com/datacute/Tiny4kOLED
+ * Install the Tiny4kOLED library: https://github.com/datacute/Tiny4kOLED
  
 ## Build
  * Seeed XIAO RP2350
