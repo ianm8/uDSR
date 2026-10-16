@@ -3,11 +3,13 @@ A direct sampling SDR receiver, largely based on the receiver section of the uDS
 
 # uDSR vs uDST
 
-uDSR comes out about 1.8 dB more sensitive than uDST, but it gives up 12dB of clipping headroom. The 10-bit ADC's 10 dB worse SNR is more than paid back by the halved full-scale voltage and the 6 dB of extra transformer gain.
-
-# Summary
+## Summary
 
 The receivers have essentially the same sensitivity but uDST has about 12dB more dynamic range.
+
+## Details
+
+uDSR comes out about 1.8 dB more sensitive than uDST, but it gives up 12dB of clipping headroom. The 10-bit ADC's 10 dB worse SNR is more than paid back by the halved full-scale voltage and the 6 dB of extra transformer gain.
 
 **Assumptions:**
 - Antenna-referred, 50 Ω.
