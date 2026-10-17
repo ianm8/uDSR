@@ -63,7 +63,7 @@ The FPGA link is a PIO-based SPI at 6 MHz, plus the data-ready input.
 
 Two 6-bit PWM outputs at 3.9 MHz (250 MHz ÷ 64) form a 12-bit DAC.
 
-- **Summing:** the high-order PWM feeds the summing node through 1.5 kΩ and the low-order PWM through 100 kΩ. That's a weighting of about 67:1, against the ideal 64:1.
+- **Summing:** the high-order PWM feeds the summing node through 1.5 kΩ and the low-order PWM through 100 kΩ. That's a weighting of about 65:1 (taking into account some series pin resistance), against the ideal 64:1.
 - **Filtering:** 100 nF and 470 Ω to ground at the node make a first-order low-pass at about 4.5 kHz. This attenuates the 3.9 MHz PWM carrier by about 59 dB and scales the output to about 0.8 Vpp.
 - **Amplifier:** a 100 nF series capacitor AC-couples the audio into a TI **LM4875** amplifier, which has DC voltage-controlled volume, driving headphones.
 
