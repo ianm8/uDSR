@@ -7,7 +7,7 @@ Use openFPGALoader to program the FPGA
 
 * start MSYS2
 * openFPGALoader --detect
-* openFPGALoader -b tangnano9k -f uDST.fs
+* openFPGALoader -b tangnano9k -f uDSR.fs
 
 If successful, the scrolling pattern should appear on the 6 LEDs.
 
