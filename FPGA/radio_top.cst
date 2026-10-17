@@ -1,0 +1,84 @@
+######################### Locations #########################
+# radio_top pin assignment, Brisbane Silicon BRS-100-GW1NR9
+# (GW1NR-LV9QN88PC6/I5).  *** RX-ONLY, 10-BIT ADC, SINGLE SPI BUS ***
+#
+# Uses 16 of the 32 J5/J6 GPIO. FREED vs the transceiver build:
+#   37, 38            (old adc_in[1:0] -- ADC is now 10 bits, MSB-aligned)
+#   40, 41, 42        (old spi_tw bus -- tuning word now rides the IQ bus)
+#   57                (old tx_rx)
+#   68..77            (old dac_out[9:0])
+# pad_clk_27Mhz (pin 52) = crystal/TCXO input, NOT part of pad_io[1-32].
+
+# -------- Clock reference (crystal -> rPLL) --------
+IO_LOC  "sys_clk"            52;
+
+# -------- ADC (10-bit, e.g. AD9215, D0-D9), J5 --------
+# what was adc_in[11:2] is now adc_in[9:0];
+# the two old LSB pins are freed.
+IO_LOC  "adc_in[0]"          25;   # LSB
+IO_LOC  "adc_in[1]"          26;
+IO_LOC  "adc_in[2]"          27;
+IO_LOC  "adc_in[3]"          28;
+IO_LOC  "adc_in[4]"          29;
+IO_LOC  "adc_in[5]"          30;
+IO_LOC  "adc_in[6]"          33;
+IO_LOC  "adc_in[7]"          34;
+IO_LOC  "adc_in[8]"          35;
+IO_LOC  "adc_in[9]"          36;   # MSB
+
+# -------- Sample clock to ADC, J5 --------
+IO_LOC  "clk80"              39;
+
+# -------- SPI IQ + tuning bus, J6 --------
+IO_LOC  "spi_iq_sck"         56;
+IO_LOC  "spi_iq_mosi"        55;
+IO_LOC  "spi_iq_miso"        54;
+IO_LOC  "spi_iq_cs_n"        53;
+IO_LOC  "data_ready"         51;
+
+# -------- Status LEDs (separate 1.8V header), active low --------
+IO_LOC  "leds_n[1]"          16;
+IO_LOC  "leds_n[2]"          15;
+IO_LOC  "leds_n[3]"          14;
+IO_LOC  "leds_n[4]"          13;
+IO_LOC  "leds_n[5]"          11;
+IO_LOC  "leds_n[6]"          10;
+
+
+######################### Configuration #########################
+
+IO_PORT "sys_clk"            IO_TYPE=LVCMOS33  PULL_MODE=UP;
+
+# ADC data bus: actively driven by the ADC at all times, no pulls needed
+IO_PORT "adc_in[0]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[1]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[2]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[3]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[4]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[5]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[6]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[7]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[8]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "adc_in[9]"          IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+
+# Sample clock forwarded to the ADC (FPGA-driven, via ODDR)
+IO_PORT "clk80"              IO_TYPE=LVCMOS33  PULL_MODE=NONE   DRIVE=8;
+
+# SPI IQ + tuning bus.
+# MOSI now carries the tuning word, so it is pulled DOWN: if the Pico ever
+# leaves it undriven, the FPGA shifts in zeros = "no change" -- fail-safe.
+# cs_n pulled up so the bus idles deasserted if the Pico resets.
+IO_PORT "spi_iq_sck"         IO_TYPE=LVCMOS33  PULL_MODE=NONE;
+IO_PORT "spi_iq_mosi"        IO_TYPE=LVCMOS33  PULL_MODE=DOWN;
+IO_PORT "spi_iq_miso"        IO_TYPE=LVCMOS33  PULL_MODE=NONE   DRIVE=8;
+IO_PORT "spi_iq_cs_n"        IO_TYPE=LVCMOS33  PULL_MODE=UP;
+IO_PORT "data_ready"         IO_TYPE=LVCMOS33  PULL_MODE=NONE   DRIVE=8;
+
+# Status LEDs: separate 1.8V bank, active low (common anode); PULL_MODE=UP
+# makes them idle OFF if the FPGA hasn't configured/driven them yet.
+IO_PORT "leds_n[1]"          IO_TYPE=LVCMOS18  PULL_MODE=UP     DRIVE=8;
+IO_PORT "leds_n[2]"          IO_TYPE=LVCMOS18  PULL_MODE=UP     DRIVE=8;
+IO_PORT "leds_n[3]"          IO_TYPE=LVCMOS18  PULL_MODE=UP     DRIVE=8;
+IO_PORT "leds_n[4]"          IO_TYPE=LVCMOS18  PULL_MODE=UP     DRIVE=8;
+IO_PORT "leds_n[5]"          IO_TYPE=LVCMOS18  PULL_MODE=UP     DRIVE=8;
+IO_PORT "leds_n[6]"          IO_TYPE=LVCMOS18  PULL_MODE=UP     DRIVE=8;
