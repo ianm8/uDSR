@@ -26,10 +26,14 @@
 ![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_022853863.jpg?raw=true)
 
 
-### more coming soon...
+### Low-pass cutoff:
 
-![uDSR Build](...?raw=true)
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_023100587.jpg?raw=true)
 
+
+### High-pass cutoff:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_023230098.jpg?raw=true)
 
 
 ### High-pass response before the 1k resistor is added:
@@ -37,6 +41,52 @@
 ![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_023336070.jpg?raw=true)
 
 
-more coming soon...
+### High-pass response with 1k resistor installed:
 
-![uDSR Build](...?raw=true)
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_024127553.jpg?raw=true)
+
+
+### Low frequency responose attenuation:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_024207039.jpg?raw=true)
+
+
+### Response up to 10 MHz:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_024229046.jpg?raw=true)
+
+
+### Complete filter response:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_024305090.jpg?raw=true)
+
+
+### MMIC and transformer installed:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_032219161.jpg?raw=true)
+
+
+### Rotary and display passives:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_044840927.jpg?raw=true)
+
+
+### Remaining passives:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_055033805.jpg?raw=true)
+
+
+### RP2350 and OLED installed for testing:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_064001643.jpg?raw=true)
+
+
+### Rotary encoder and FPGA board installed for testing:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_225128917.jpg?raw=true)
+
+
+### Board complete:
+
+![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261016_002111216.jpg?raw=true)
+
