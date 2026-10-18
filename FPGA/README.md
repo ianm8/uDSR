@@ -15,3 +15,7 @@ In GOWIN, just create a new project with device GW1NR-LV9QN88PC6/I5, add these f
 * start MSYS2
 * openFPGALoader --detect
 * openFPGALoader -b tangnano9k -f uDSR.fs
+
+# FPGA Block Diagram
+
+![uDST FPGA](https://github.com/ianm8/uDSR/blob/main/docs/uDSR_FPGA_DDC26.png?raw=true)
