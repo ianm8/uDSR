@@ -46,7 +46,7 @@
 ![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_024127553.jpg?raw=true)
 
 
-### Low frequency responose attenuation:
+### Low frequency response attenuation:
 
 ![uDSR Build](https://github.com/ianm8/uDSR/blob/main/build/PXL_20261015_024207039.jpg?raw=true)
 
