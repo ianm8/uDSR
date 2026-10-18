@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1720" height="1060" viewBox="0 0 1720 1060" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#212529"/></marker></defs>
+<rect width="1720" height="1060" fill="#FFFFFF"/>
+<text x="30" y="46" font-size="26" font-weight="bold" fill="#111">uDSR FPGA: DDC26 datapath</text>
+<text x="30" y="72" font-size="15" fill="#495057">Gowin GW1NR-LV9 · single 81 MHz clock domain (rPLL 27 → 81 MHz) · signed two’s complement throughout · I and Q paths identical (one shown)</text>
+<rect x="20" y="92" width="1680" height="170" rx="12" fill="#F1F3F5" stroke="#CED4DA" stroke-width="1.5"/>
+<text x="36" y="114" font-size="14" font-weight="bold" fill="#212529">NCO</text>
+<text x="1684" y="114" font-size="13" fill="#495057" text-anchor="end">81 MHz · every clock</text>
+<path d="M40,185 L178,185" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="36" y="175" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="start">tuning word 32b</text>
+<text x="36" y="208" font-size="11.5" fill="#495057">from SPI, tw_valid</text>
+<rect x="180" y="160" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M204.0,210 L212.0,200 L220.0,210" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="212.0" y="178" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="212.0" y="195" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">32b</text>
+<text x="212.0" y="154" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">tuning_active</text>
+<text x="212.0" y="224" font-size="10.5" fill="#495057" text-anchor="middle">load on tw_valid</text>
+<path d="M244,185 L290,185" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="290" y="150" width="190" height="70" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="385.0" y="174.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Phase accumulator</text>
+<text x="385.0" y="190.0" font-size="12.5" fill="#FFF" text-anchor="middle">phase += tuning_active</text>
+<text x="385.0" y="206.0" font-size="12.5" fill="#FFF" text-anchor="middle">32b, wraps mod 2³²</text>
+<rect x="495" y="160" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M519.0,210 L527.0,200 L535.0,210" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="527.0" y="178" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="527.0" y="195" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">32b</text>
+<text x="527.0" y="154" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">phase</text>
+<text x="527.0" y="224" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M559,185 L640,185" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="600" y="175" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">[31:22] 10b</text>
+<rect x="640" y="140" width="230" height="90" rx="8" fill="#9C36B5" stroke="#212529" stroke-width="2"/>
+<text x="755.0" y="166.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">sin / cos LUT</text>
+<text x="755.0" y="182.0" font-size="12.5" fill="#FFF" text-anchor="middle">2 × BRAM 1024 × 16 (Q15)</text>
+<text x="755.0" y="198.0" font-size="12.5" fill="#FFF" text-anchor="middle">cos index = sin index + 256</text>
+<text x="755.0" y="214.0" font-size="12.5" fill="#FFF" text-anchor="middle">synchronous read</text>
+<rect x="905" y="160" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M929.0,210 L937.0,200 L945.0,210" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="937.0" y="178" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="937.0" y="195" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">16b ×2</text>
+<text x="937.0" y="154" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">sin_out/cos_out</text>
+<text x="937.0" y="224" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M969,185 L1015,185" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="1015" y="160" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M1039.0,210 L1047.0,200 L1055.0,210" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="1047.0" y="178" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="1047.0" y="195" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">16b ×2</text>
+<text x="1047.0" y="154" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">sin_r / cos_r</text>
+<text x="1047.0" y="224" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<text x="1300" y="175" font-size="13" font-weight="bold" fill="#C92A2A" text-anchor="middle">resolution 81 MHz / 2³² ≈ 0.019 Hz</text>
+<text x="1300" y="196" font-size="12.5" fill="#495057" text-anchor="middle">SFDR set by 10-bit phase / 16-bit amplitude LUT</text>
+<rect x="20" y="282" width="1680" height="200" rx="12" fill="#F1F3F5" stroke="#CED4DA" stroke-width="1.5"/>
+<text x="36" y="304" font-size="14" font-weight="bold" fill="#212529">Mixer and CIC integrators</text>
+<text x="1684" y="304" font-size="13" fill="#495057" text-anchor="end">81 MHz · every clock</text>
+<rect x="36" y="335" width="130" height="90" rx="8" fill="#2B8A3E" stroke="#212529" stroke-width="2"/>
+<text x="101.0" y="369.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">ADC10080</text>
+<text x="101.0" y="385.0" font-size="12.5" fill="#FFF" text-anchor="middle">10b two’s comp</text>
+<text x="101.0" y="401.0" font-size="12.5" fill="#FFF" text-anchor="middle">81 MSPS</text>
+<path d="M166,380 L220,380" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="193" y="370" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">10b</text>
+<rect x="220" y="355" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M244.0,405 L252.0,395 L260.0,405" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="252.0" y="373" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="252.0" y="390" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">16b</text>
+<text x="252.0" y="349" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">adc_r</text>
+<text x="252.0" y="419" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<text x="252" y="440" font-size="11.5" fill="#495057" text-anchor="middle">{sign×4, adc, 00}</text>
+<text x="252" y="454" font-size="11.5" fill="#495057" text-anchor="middle">±2048 (12-bit slot)</text>
+<path d="M284,380 L430,380" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<path d="M1079,185 L1120,185 L1120,262 L480,262 L480,345" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="738" y="255" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">cos → I,  sin → Q   (16b Q15)</text>
+<rect x="430" y="345" width="110" height="70" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="485.0" y="369.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">× multiply</text>
+<text x="485.0" y="385.0" font-size="12.5" fill="#FFF" text-anchor="middle">16 × 16 → 32b</text>
+<text x="485.0" y="401.0" font-size="12.5" fill="#FFF" text-anchor="middle">I: ×cos  Q: ×sin</text>
+<path d="M540,380 L575,380" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="557" y="370" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">32b</text>
+<rect x="575" y="355" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M599.0,405 L607.0,395 L615.0,405" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="607.0" y="373" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="607.0" y="390" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">32b</text>
+<text x="607.0" y="349" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">mult_i/q_reg</text>
+<text x="607.0" y="419" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M639,380 L680,380" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="680" y="340" width="170" height="80" rx="8" fill="#F76707" stroke="#212529" stroke-width="2"/>
+<text x="765.0" y="369.0" font-size="15" font-weight="bold" fill="#111" text-anchor="middle">Round, &gt;&gt;&gt;13</text>
+<text x="765.0" y="385.0" font-size="12.5" fill="#111" text-anchor="middle">x[31:13] + x[12]</text>
+<text x="765.0" y="401.0" font-size="12.5" fill="#111" text-anchor="middle">Q15 → ×4 scaling</text>
+<path d="M850,380 L890,380" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="870" y="370" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">19b</text>
+<rect x="890" y="355" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M914.0,405 L922.0,395 L930.0,405" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="922.0" y="373" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="922.0" y="390" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">19b</text>
+<text x="922.0" y="349" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">mixI / mixQ</text>
+<text x="922.0" y="419" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<text x="922" y="440" font-size="11.5" fill="#495057" text-anchor="middle">range ±8192</text>
+<text x="765" y="452" font-size="13" font-weight="bold" fill="#C92A2A" text-anchor="middle">gain ×4</text>
+<path d="M954,380 L990,380" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="990" y="345" width="130" height="70" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="1055.0" y="369.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Integrator 1</text>
+<text x="1055.0" y="385.0" font-size="12.5" fill="#FFF" text-anchor="middle">y += x</text>
+<text x="1055.0" y="401.0" font-size="12.5" fill="#FFF" text-anchor="middle">48b adder</text>
+<rect x="1132" y="355" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M1156.0,405 L1164.0,395 L1172.0,405" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="1164.0" y="373" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="1164.0" y="390" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">48b</text>
+<text x="1164.0" y="349" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">i1I / i1Q</text>
+<text x="1164.0" y="419" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M1196,380 L1225,380" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="1225" y="345" width="130" height="70" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="1290.0" y="369.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Integrator 2</text>
+<text x="1290.0" y="385.0" font-size="12.5" fill="#FFF" text-anchor="middle">y += x</text>
+<text x="1290.0" y="401.0" font-size="12.5" fill="#FFF" text-anchor="middle">48b adder</text>
+<rect x="1367" y="355" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M1391.0,405 L1399.0,395 L1407.0,405" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="1399.0" y="373" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="1399.0" y="390" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">48b</text>
+<text x="1399.0" y="349" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">i2I / i2Q</text>
+<text x="1399.0" y="419" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M1431,380 L1460,380" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="1460" y="345" width="130" height="70" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="1525.0" y="369.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Integrator 3</text>
+<text x="1525.0" y="385.0" font-size="12.5" fill="#FFF" text-anchor="middle">y += x</text>
+<text x="1525.0" y="401.0" font-size="12.5" fill="#FFF" text-anchor="middle">48b adder</text>
+<rect x="1602" y="355" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M1626.0,405 L1634.0,395 L1642.0,405" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="1634.0" y="373" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="1634.0" y="390" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">48b</text>
+<text x="1634.0" y="349" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">i3I / i3Q</text>
+<text x="1634.0" y="419" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<text x="1340" y="452" font-size="12.5" fill="#495057" text-anchor="middle">48b integrators MATCH the 48b combs (modulo-2⁴⁸ wrap cancels exactly); worst case needs 41b</text>
+<path d="M1684,380 L1700,380 L1700,495 L60,495 L60,570" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="880" y="489" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">i3 (48b) sampled once every 432 clocks</text>
+<rect x="20" y="510" width="1680" height="200" rx="12" fill="#F1F3F5" stroke="#CED4DA" stroke-width="1.5"/>
+<text x="36" y="532" font-size="14" font-weight="bold" fill="#212529">CIC combs and output scaling</text>
+<text x="1684" y="532" font-size="13" fill="#495057" text-anchor="end">187.5 kHz · on dec_tick (1 clock in 432)</text>
+<rect x="36" y="570" width="130" height="70" rx="8" fill="#FCC419" stroke="#212529" stroke-width="2"/>
+<text x="101.0" y="594.0" font-size="15" font-weight="bold" fill="#111" text-anchor="middle">÷432 counter</text>
+<text x="101.0" y="610.0" font-size="12.5" fill="#111" text-anchor="middle">dec_cnt 9b</text>
+<text x="101.0" y="626.0" font-size="12.5" fill="#111" text-anchor="middle">→ dec_tick</text>
+<rect x="180" y="580" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M204.0,630 L212.0,620 L220.0,630" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="212.0" y="598" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="212.0" y="615" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">48b</text>
+<text x="212.0" y="574" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">i3I_s</text>
+<text x="212.0" y="644" font-size="10.5" fill="#495057" text-anchor="middle">dec_tick</text>
+<path d="M244,605 L280,605" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="280" y="565" width="140" height="80" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="350.0" y="594.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Comb 1</text>
+<text x="350.0" y="610.0" font-size="12.5" fill="#FFF" text-anchor="middle">y = x − x[n−1]</text>
+<text x="350.0" y="626.0" font-size="12.5" fill="#FFF" text-anchor="middle">48b, M = 1</text>
+<rect x="430" y="580" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M454.0,630 L462.0,620 L470.0,630" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="462.0" y="598" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="462.0" y="615" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">48b</text>
+<text x="462.0" y="574" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">y0</text>
+<text x="462.0" y="644" font-size="10.5" fill="#495057" text-anchor="middle">dec_tick</text>
+<path d="M494,605 L500,605" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="500" y="565" width="140" height="80" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="570.0" y="594.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Comb 2</text>
+<text x="570.0" y="610.0" font-size="12.5" fill="#FFF" text-anchor="middle">y = x − x[n−1]</text>
+<text x="570.0" y="626.0" font-size="12.5" fill="#FFF" text-anchor="middle">48b, M = 1</text>
+<rect x="650" y="580" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M674.0,630 L682.0,620 L690.0,630" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="682.0" y="598" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="682.0" y="615" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">48b</text>
+<text x="682.0" y="574" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">y1</text>
+<text x="682.0" y="644" font-size="10.5" fill="#495057" text-anchor="middle">dec_tick</text>
+<path d="M714,605 L720,605" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="720" y="565" width="140" height="80" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="790.0" y="594.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Comb 3</text>
+<text x="790.0" y="610.0" font-size="12.5" fill="#FFF" text-anchor="middle">y = x − x[n−1]</text>
+<text x="790.0" y="626.0" font-size="12.5" fill="#FFF" text-anchor="middle">48b, M = 1</text>
+<rect x="870" y="580" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M894.0,630 L902.0,620 L910.0,630" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="902.0" y="598" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="902.0" y="615" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">48b</text>
+<text x="902.0" y="574" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">y2</text>
+<text x="902.0" y="644" font-size="10.5" fill="#495057" text-anchor="middle">dec_tick</text>
+<path d="M934,605 L965,605" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="965" y="560" width="190" height="90" rx="8" fill="#F76707" stroke="#212529" stroke-width="2"/>
+<text x="1060.0" y="594.0" font-size="15" font-weight="bold" fill="#111" text-anchor="middle">Round, &gt;&gt;&gt;24  (E1)</text>
+<text x="1060.0" y="610.0" font-size="12.5" fill="#111" text-anchor="middle">y2[47:24] + y2[23]</text>
+<text x="1060.0" y="626.0" font-size="12.5" fill="#111" text-anchor="middle">432³ / 2²⁴ = ×4.806</text>
+<path d="M1155,605 L1190,605" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="1172" y="595" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">24b</text>
+<rect x="1190" y="580" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M1214.0,630 L1222.0,620 L1230.0,630" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="1222.0" y="598" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="1222.0" y="615" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">24b</text>
+<text x="1222.0" y="574" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">y2I_sh</text>
+<text x="1222.0" y="644" font-size="10.5" fill="#495057" text-anchor="middle">dec_tick</text>
+<path d="M1254,605 L1290,605" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="1290" y="560" width="190" height="90" rx="8" fill="#F76707" stroke="#212529" stroke-width="2"/>
+<text x="1385.0" y="594.0" font-size="15" font-weight="bold" fill="#111" text-anchor="middle">Saturate  (E2)</text>
+<text x="1385.0" y="610.0" font-size="12.5" fill="#111" text-anchor="middle">bits [23:15] all = sign?</text>
+<text x="1385.0" y="626.0" font-size="12.5" fill="#111" text-anchor="middle">else ±32767</text>
+<path d="M1480,605 L1515,605" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="1497" y="595" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">16b</text>
+<rect x="1515" y="580" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M1539.0,630 L1547.0,620 L1555.0,630" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="1547.0" y="598" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="1547.0" y="615" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">16b</text>
+<text x="1547.0" y="574" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">cicI_reg</text>
+<text x="1547.0" y="644" font-size="10.5" fill="#495057" text-anchor="middle">dec_tick_d1</text>
+<text x="1060" y="675" font-size="13" font-weight="bold" fill="#C92A2A" text-anchor="middle">gain ×4.806</text>
+<text x="1590" y="602" font-size="12" fill="#495057">cic_valid</text>
+<text x="1590" y="618" font-size="12" fill="#495057">FS ±19684</text>
+<text x="560" y="690" font-size="12.5" fill="#495057" text-anchor="middle">E1 and E2 are split over two clocks for timing (Fmax); costs 1 clock of the 432 available</text>
+<path d="M1547,646 L1547,722 L60,722 L60,800" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="880" y="716" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">16b I, Q at 187.5 kHz</text>
+<rect x="20" y="737" width="1680" height="230" rx="12" fill="#F1F3F5" stroke="#CED4DA" stroke-width="1.5"/>
+<text x="36" y="759" font-size="14" font-weight="bold" fill="#212529">FIR decimate-by-6  (252 taps, one serial MAC per channel)</text>
+<text x="1684" y="759" font-size="13" fill="#495057" text-anchor="end">MAC runs 257 of every 2592 clocks · output 31.25 kHz</text>
+<rect x="36" y="790" width="150" height="90" rx="8" fill="#9C36B5" stroke="#212529" stroke-width="2"/>
+<text x="111.0" y="816.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Sample history</text>
+<text x="111.0" y="832.0" font-size="12.5" fill="#FFF" text-anchor="middle">BRAM 256 × 16</text>
+<text x="111.0" y="848.0" font-size="12.5" fill="#FFF" text-anchor="middle">per channel</text>
+<text x="111.0" y="864.0" font-size="12.5" fill="#FFF" text-anchor="middle">write on cic_valid</text>
+<rect x="36" y="890" width="150" height="62" rx="8" fill="#9C36B5" stroke="#212529" stroke-width="2"/>
+<text x="111.0" y="918.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Coefficient ROM</text>
+<text x="111.0" y="934.0" font-size="12.5" fill="#FFF" text-anchor="middle">BRAM 256 × 16</text>
+<text x="111" y="964" font-size="11" fill="#495057" text-anchor="middle">252 taps + 4 zero pad, Σ = 54552</text>
+<path d="M186,835 L230,835" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="208" y="825" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">16b</text>
+<path d="M186,920 L210,920 L210,870 L230,870" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="230" y="815" width="64" height="70" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M254.0,885 L262.0,875 L270.0,885" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="262.0" y="833" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="262.0" y="850" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">16b ×2</text>
+<text x="262.0" y="809" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">sampI / coeff</text>
+<text x="262.0" y="899" font-size="10.5" fill="#495057" text-anchor="middle">1 clk read</text>
+<path d="M294,850 L335,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="335" y="785" width="420" height="140" rx="10" fill="none" stroke="#1971C2" stroke-width="2.5" stroke-dasharray="8 5"/>
+<text x="545" y="804" font-size="13" font-weight="bold" fill="#1971C2" text-anchor="middle">mac16_reg (DSP block), latency 3</text>
+<rect x="350" y="825" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M374.0,875 L382.0,865 L390.0,875" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="382.0" y="843" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="382.0" y="860" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">16b ×2</text>
+<text x="382.0" y="819" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">a_r / b_r</text>
+<text x="382.0" y="889" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M414,850 L440,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="440" y="820" width="100" height="60" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="490.0" y="847.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">× multiply</text>
+<text x="490.0" y="863.0" font-size="12.5" fill="#FFF" text-anchor="middle">16 × 16 → 32b</text>
+<path d="M540,850 L560,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="560" y="825" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M584.0,875 L592.0,865 L600.0,875" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="592.0" y="843" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="592.0" y="860" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">32b</text>
+<text x="592.0" y="819" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">mult_r</text>
+<text x="592.0" y="889" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M624,850 L660,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="660" y="825" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M684.0,875 L692.0,865 L700.0,875" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="692.0" y="843" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="692.0" y="860" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">32b</text>
+<text x="692.0" y="819" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">prod_out</text>
+<text x="692.0" y="889" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M724,850 L780,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="768" y="840" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">32b</text>
+<rect x="780" y="815" width="150" height="70" rx="8" fill="#1971C2" stroke="#212529" stroke-width="2"/>
+<text x="855.0" y="839.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">Accumulate</text>
+<text x="855.0" y="855.0" font-size="12.5" fill="#FFF" text-anchor="middle">acc += prod</text>
+<text x="855.0" y="871.0" font-size="12.5" fill="#FFF" text-anchor="middle">40b, clear per output</text>
+<rect x="942" y="825" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M966.0,875 L974.0,865 L982.0,875" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="974.0" y="843" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="974.0" y="860" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">40b</text>
+<text x="974.0" y="819" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">accI / accQ</text>
+<text x="974.0" y="889" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M1006,850 L1040,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="1040" y="810" width="170" height="80" rx="8" fill="#F76707" stroke="#212529" stroke-width="2"/>
+<text x="1125.0" y="839.0" font-size="15" font-weight="bold" fill="#111" text-anchor="middle">Round, &gt;&gt;&gt;15</text>
+<text x="1125.0" y="855.0" font-size="12.5" fill="#111" text-anchor="middle">acc[39:15] + acc[14]</text>
+<text x="1125.0" y="871.0" font-size="12.5" fill="#111" text-anchor="middle">Σh = ×1.665</text>
+<path d="M1210,850 L1245,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="1227" y="840" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">25b</text>
+<rect x="1245" y="825" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M1269.0,875 L1277.0,865 L1285.0,875" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="1277.0" y="843" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="1277.0" y="860" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">25b</text>
+<text x="1277.0" y="819" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">accI_sh</text>
+<text x="1277.0" y="889" font-size="10.5" fill="#495057" text-anchor="middle">81M</text>
+<path d="M1309,850 L1340,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="1340" y="815" width="140" height="70" rx="8" fill="#F76707" stroke="#212529" stroke-width="2"/>
+<text x="1410.0" y="847.0" font-size="15" font-weight="bold" fill="#111" text-anchor="middle">Saturate</text>
+<text x="1410.0" y="863.0" font-size="12.5" fill="#111" text-anchor="middle">→ ±32767</text>
+<path d="M1480,850 L1510,850" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<text x="1495" y="840" font-size="12.5" font-weight="bold" fill="#212529" text-anchor="middle">16b</text>
+<rect x="1510" y="825" width="64" height="50" rx="4" fill="#343A40" stroke="#212529" stroke-width="2"/>
+<path d="M1534.0,875 L1542.0,865 L1550.0,875" fill="none" stroke="#FFF" stroke-width="1.6"/>
+<text x="1542.0" y="843" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">REG</text>
+<text x="1542.0" y="860" font-size="13" font-weight="bold" fill="#FCC419" text-anchor="middle">16b</text>
+<text x="1542.0" y="819" font-size="11.5" fill="#495057" text-anchor="middle" font-family="monospace">yoI / yoQ</text>
+<text x="1542.0" y="889" font-size="10.5" fill="#495057" text-anchor="middle">31.25 kHz</text>
+<path d="M1574,850 L1600,850 L1600,905" fill="none" stroke="#212529" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="1530" y="905" width="160" height="50" rx="8" fill="#2B8A3E" stroke="#212529" stroke-width="2"/>
+<text x="1610.0" y="927.0" font-size="15" font-weight="bold" fill="#FFF" text-anchor="middle">to SPI → RP2350</text>
+<text x="1610.0" y="943.0" font-size="12.5" fill="#FFF" text-anchor="middle">32b word {I, Q}</text>
+<text x="1125" y="910" font-size="13" font-weight="bold" fill="#C92A2A" text-anchor="middle">gain ×1.665</text>
+<text x="680" y="950" font-size="12.5" fill="#495057" text-anchor="middle">257 clocks per output = 252 taps + 1 BRAM read + 3 MAC + 1 round; unused taps read the zero pad, so the accumulator adds every clock</text>
+<text x="30" y="1000" font-size="14.5" font-weight="bold" fill="#C92A2A">Overall gain ×4 × 4.806 × 1.665 = ×32.0  ⇒  full-scale ADC sine (±2048 in the 12-bit slot) → |IQ| = 32768 at the output; digital clipping coincides with ADC clipping</text>
+<rect x="30" y="1017" width="22" height="16" rx="3" fill="#343A40" stroke="#212529" stroke-width="1.5"/>
+<text x="60" y="1030" font-size="14" fill="#212529">Register (clocked)</text>
+<rect x="230" y="1017" width="22" height="16" rx="3" fill="#1971C2" stroke="#212529" stroke-width="1.5"/>
+<text x="260" y="1030" font-size="14" fill="#212529">Arithmetic</text>
+<rect x="430" y="1017" width="22" height="16" rx="3" fill="#F76707" stroke="#212529" stroke-width="1.5"/>
+<text x="460" y="1030" font-size="14" fill="#212529">Round / saturate</text>
+<rect x="630" y="1017" width="22" height="16" rx="3" fill="#9C36B5" stroke="#212529" stroke-width="1.5"/>
+<text x="660" y="1030" font-size="14" fill="#212529">Block RAM</text>
+<rect x="830" y="1017" width="22" height="16" rx="3" fill="#FCC419" stroke="#212529" stroke-width="1.5"/>
+<text x="860" y="1030" font-size="14" fill="#212529">Control</text>
+<rect x="1030" y="1017" width="22" height="16" rx="3" fill="#2B8A3E" stroke="#212529" stroke-width="1.5"/>
+<text x="1060" y="1030" font-size="14" fill="#212529">I/O</text>
+<text x="1260" y="1030" font-size="13" fill="#495057">nb = bus width in bits · label above a REG = Verilog name</text>
+</svg>
