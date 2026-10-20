@@ -14,4 +14,11 @@ https://github.com/earlephilhower/arduino-pico
  * Flash Size: 2MB (no FS)
 
 ## Some history
- * 0.01.250 start with uDST code
+ * 0.1.250 start with uDST, uPDCR, and iqSDR40
+ * 0.2.250 firmware update from menu
+ * 0.3.250 smeter fixes
+ * 0.4.250 set smeter by mode
+ * 0.5.250 dithered waterfall
+ * 0.6.250 waterfall speed
+ * 0.7.250 improved noise blanker
+ * 1.0.250 release
