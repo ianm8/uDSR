@@ -27,7 +27,7 @@ In GOWIN, just create a new project with device GW1NR-LV9QN88PC6/I5, add these f
 
 # Summary
 
-The worst point is 173.0 kHz above the NCO. At the CIC's decimation to 187.5 kHz it folds by one sample rate, to 173.0 − 187.5 = **−14.5 kHz**. That's inside the final ±15.6 kHz output, so the FIR's ÷6 stage doesn't reduce it. It arrives near the left-hand edge of the display, about 0.4 dB into the FIR's roll-off, at −65 dB (no noticable).
+The worst point is 173.0 kHz above the NCO. At the CIC's decimation to 187.5 kHz it folds by one sample rate, to 173.0 − 187.5 = **−14.5 kHz**. That's inside the final ±15.6 kHz output, so the FIR's ÷6 stage doesn't reduce it. It arrives near the left-hand edge of the display, about 0.4 dB into the FIR's roll-off, at −65 dB (not noticable).
 
 That's the general pattern for CIC aliases: the attenuation depends on where they land.
 
