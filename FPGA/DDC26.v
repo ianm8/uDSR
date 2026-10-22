@@ -43,7 +43,7 @@
 //          FIR output stage for margin; the FIR's pipeline depth
 //          (ROUND_LATENCY, and hence CNT_LAST) is unchanged.
 //
-//   FIX 5  GAIN RE-PLAN (DDC26). With the DDC23 gains (mixer >>>15, CIC
+//   FIX 5  GAIN RE-PLAN (DDC26). With the DDC25 gains (mixer >>>15, CIC
 //          >>>23, overall x16) the receiver noise at the output was only
 //          ~0.35 LSB rms per channel -- smaller than the rounding noise added
 //          by the mixer, CIC and FIR output stages -- so quantisation roughly
@@ -82,7 +82,10 @@ module nco_sincos_rx #(
 );
 
     localparam LUT_SIZE = 1 << LUT_BITS;
-    localparam COS_OFFSET = LUT_SIZE >> 2;  // +pi/2
+    // Sized to LUT_BITS so sin_idx + COS_OFFSET is a LUT_BITS-wide add that
+    // wraps mod LUT_SIZE by construction (an unsized parameter widens the
+    // expression and draws a truncation warning, EX3791).
+    localparam [LUT_BITS-1:0] COS_OFFSET = LUT_SIZE >> 2;  // +pi/2
 
     // ----------------------------
     // Phase accumulator
@@ -500,7 +503,7 @@ module ddc_top (
     always @(posedge clk80)
         if (rst)                    dec_cnt <= 0;
         else if (dec_cnt == 9'd431) dec_cnt <= 0;   // decimate-by-432
-        else                        dec_cnt <= dec_cnt + 1;
+        else                        dec_cnt <= dec_cnt + 1'b1;
 
     wire dec_tick = (dec_cnt == 9'd431);
 
