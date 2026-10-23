@@ -2,8 +2,7 @@
 A direct sampling SDR receiver, largely based on the receiver section of the uDST.
 
 ## Video Demonstration
-
-[![Watch the video](https://youtu.be/R5GEAc30KmE)](https://youtu.be/R5GEAc30KmE)
+* [uDSR Demo](https://youtu.be/R5GEAc30KmE)
 
 ![uDST Block Diagram](https://github.com/ianm8/uDSR/blob/main/docs/uDSR_block_diagram.png?raw=true)
 
