@@ -7,6 +7,10 @@ A direct sampling SDR receiver, largely based on the receiver section of the uDS
 
 ![uDST Complete](https://github.com/ianm8/uDSR/blob/main/docs/PXL_20261016_035903271.jpg?raw=true)
 
+## Video Demonstration
+
+[![Watch the video](https://youtu.be/R5GEAc30KmE)](https://youtu.be/R5GEAc30KmE)
+
 
 # uDSR vs uDST
 
