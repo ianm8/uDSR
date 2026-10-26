@@ -22,3 +22,4 @@ https://github.com/earlephilhower/arduino-pico
  * 0.6.250 waterfall speed
  * 0.7.250 improved noise blanker
  * 1.0.250 release
+ * 1.1.250 limiter (audio blanker)
