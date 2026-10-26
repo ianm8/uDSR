@@ -1,5 +1,5 @@
 /*
- * uDSR Version 1.0.250
+ * uDSR Version 1.1.250
  *
  * Copyright 2026 Ian Mitchell VK7IAN
  * Licenced under the GNU GPL Version 3
@@ -29,6 +29,7 @@
  *  0.6.250 waterfall speed
  *  0.7.250 improved noise blanker
  *  1.0.250 release
+ *  1.1.250 limiter (audio blanker)
  */
 
 //#define DEBUG_LED
@@ -54,7 +55,7 @@
 #include "hardware/vreg.h"
 #include "pico/bootrom.h"
 
-#define VERSION_STRING "  V1.0."
+#define VERSION_STRING "  V1.1."
 #define MENU_TIMEOUT 5000u
 #define POPUP_TIMEOUT 5000u
 #define BAND_80M 0
@@ -77,11 +78,12 @@
 #define NOTCH_LOW 300ul
 #define NOTCH_HIGH 2600ul
 #define DEFAULT_NOTCH 1000ul
-#define DEFAULT_SPEED 0ul
+#define DEFAULT_SPEED 1ul
 #define BUTTON_LONG_PRESS_TIME 800ul
 #define SPECTRUM_LEVEL_MIN -4
 #define SPECTRUM_LEVEL_MAX 5
 #define FPGA_CLK 81'000'000ULL // mine measured: 80'999'683
+//#define FPGA_CLK 80'999'683
 
 #define PIN_ENC     A0  // 26 analog encode pin (ADC0)
 #define PIN_ENCBUT  D7  // 1 button on rotary
@@ -95,17 +97,23 @@
 #define PIN_AUPWML  D10 // 3 audio PWM low
 #define PIN_AUPWMH  D8  // 2 audio PWM high
 
-#define JNR_OFF     0u
-#define JNR_LEVEL1  1u
-#define JNR_LEVEL2  2u
-#define JNR_LEVEL3  3u
-#define NB_OFF      0u
-#define NB_LEVEL1   1u
-#define NB_LEVEL2   2u
-#define NB_LEVEL3   3u
-#define NB_LEVEL4   4u
-#define NB_LEVEL5   5u
-#define POS_MENU_X  25u
+#define JNR_OFF        0u
+#define JNR_LEVEL1     1u
+#define JNR_LEVEL2     2u
+#define JNR_LEVEL3     3u
+#define NB_OFF         0u
+#define NB_LEVEL1      1u
+#define NB_LEVEL2      2u
+#define NB_LEVEL3      3u
+#define NB_LEVEL4      4u
+#define NB_LEVEL5      5u
+#define LIMITER_OFF    0u
+#define LIMITER_LEVEL1 1u
+#define LIMITER_LEVEL2 2u
+#define LIMITER_LEVEL3 3u
+#define LIMITER_LEVEL4 4u
+#define LIMITER_LEVEL5 5u
+#define POS_MENU_X     25u
 
 // two buffers of 1024 FFT bins
 #define MAX_IQ_SAMPLES  2048
@@ -148,6 +156,7 @@ volatile static struct
   uint32_t cwdecode;
   uint32_t jnrlevel;
   uint32_t nblevel;
+  uint32_t limiter;
   uint32_t bandwidth;
   uint32_t notch;
   uint32_t update;
@@ -172,6 +181,7 @@ radio =
   0l,
   JNR_OFF,
   NB_OFF,
+  LIMITER_OFF,
   DEFAULT_BANDWIDTH,
   DEFAULT_NOTCH,
   0ul,
@@ -811,9 +821,9 @@ static const bool cw_decode_active(void)
 
 static const spectrum_layout_t spectrum_layout(void)
 {
-  if (cw_decode_active()) return LAYOUT_CW;          // decode needs its own rows
-  if (!radio.spectrum)    return LAYOUT_METER;       // spectrum off: meter dial
-  if (radio.waterfall)    return LAYOUT_WATERFALL;   // waterfall is a spectrum option
+  if (cw_decode_active()) return LAYOUT_CW;        // decode needs its own rows
+  if (!radio.spectrum)    return LAYOUT_METER;     // spectrum off: meter dial
+  if (radio.waterfall)    return LAYOUT_WATERFALL; // waterfall is a spectrum option
   return LAYOUT_SPECTRUM;
 }
 
@@ -891,11 +901,28 @@ static void show_spectrum_cw(const uint32_t signal)
 //
 // Contrast: the noise floor of each line (its median) is subtracted, so
 // noise sits black and signals stand out without a manual level setting.
+//
+// Near the floor, Bayer lights the SAME tile position everywhere, so faint
+// noise shows as a regular grid. Levels up to WF_RANDOM_BELOW therefore use
+// a random threshold instead: the same average density, but scattered like
+// real noise. Brighter levels keep Bayer for a smooth, even signal texture.
+// 0 = Bayer everywhere (old look), 16 = random everywhere.
 #define WF_LINE_MS_SLOW   150u // one new line every 150 ms -> 16 lines = 2.4 s
 #define WF_LINE_MS_MEDIUM 60u  // one new line every 100 ms -> 16 lines = 1.0 s
 #define WF_LINE_MS_FAST   32u  // one new line every 75 ms -> 16 lines = 0.5 s
 #define WF_CONTRAST       2u   // log steps above the floor -> dither levels
 #define WF_NOISE_FILL     1u   // dither level (out of 16) at the noise floor: 0 = black noise
+#define WF_RANDOM_BELOW   4u   // levels <= this use random dither (breaks up the grid)
+
+// small fast pseudo-random generator (xorshift32) for the dither
+static inline uint32_t wf_random(void)
+{
+  static uint32_t s = 0x2545f491u;
+  s ^= s << 13;
+  s ^= s >> 17;
+  s ^= s << 5;
+  return s;
+}
 
 static void show_waterfall(const uint32_t signal)
 {
@@ -969,7 +996,10 @@ static void show_waterfall(const uint32_t signal)
         (int32_t)WF_NOISE_FILL;
       if (level<0) level = 0;
       if (level>16) level = 16;
-      const uint16_t pixel = (level > threshold[i & 3u]) ? 1u : 0u;
+      // random threshold 0..15 near the floor, Bayer above it
+      const uint32_t t = ((uint32_t)level <= WF_RANDOM_BELOW) ?
+        (wf_random() >> 28) : threshold[i & 3u];
+      const uint16_t pixel = ((uint32_t)level > t) ? 1u : 0u;
       wf[i] = (uint16_t)(wf[i] << 1) | pixel;
       peak[i] = 0;
     }
@@ -1084,11 +1114,31 @@ static void show_bandwidth(void)
 
 static void show_nb(void)
 {
-  char sz_nb[4] = "NB0";
-  sz_nb[2] = (char)('0' + radio.nblevel);
+  // NB and limiter
+  if (radio.limiter == LIMITER_OFF)
+  {
+    char sz_nb[4] = "NB0";
+    sz_nb[2] = (char)('0' + radio.nblevel);
+    oled.setFont(FONT6X8);
+    text_at(COL_NB,1);
+    oled.print(sz_nb);
+    return;
+  }
+  if (radio.nblevel == NB_OFF)
+  {
+    char sz_nl[4] = "NL0";
+    sz_nl[2] = (char)('0' + radio.limiter);
+    oled.setFont(FONT6X8);
+    text_at(COL_NB,1);
+    oled.print(sz_nl);
+    return;
+  }
+  char sz_nbl[4] = "N00";
+  sz_nbl[1] = (char)('0' + radio.nblevel);
+  sz_nbl[2] = (char)('0' + radio.limiter);
   oled.setFont(FONT6X8);
   text_at(COL_NB,1);
-  oled.print(sz_nb);
+  oled.print(sz_nbl);
 }
 
 static void show_cpu_usage(void)
@@ -1585,14 +1635,15 @@ void __not_in_flash_func(loop1)(void)
   float cwsig = 0.0f;
   const uint8_t jnr = radio.jnrlevel;
   const uint8_t nb = radio.nblevel;
+  const uint8_t lm = radio.limiter;
   const uint8_t bw = radio.bandwidth - 1;
   switch (radio.mode)
   {
-    case MODE_LSB: dac_audio = DSP::process_ssb(qq,ii,jnr,bw,nb); break;
-    case MODE_USB: dac_audio = DSP::process_ssb(ii,qq,jnr,bw,nb); break;
-    case MODE_AM:  dac_audio = DSP::process_am(ii,qq,jnr);        break;
-    case MODE_CWL: dac_audio = DSP::process_cw(qq,ii,cwsig);      break;
-    case MODE_CWU: dac_audio = DSP::process_cw(ii,qq,cwsig);      break;
+    case MODE_LSB: dac_audio = DSP::process_ssb(qq,ii,jnr,bw,nb,lm); break;
+    case MODE_USB: dac_audio = DSP::process_ssb(ii,qq,jnr,bw,nb,lm); break;
+    case MODE_AM:  dac_audio = DSP::process_am(ii,qq,jnr);           break;
+    case MODE_CWL: dac_audio = DSP::process_cw(qq,ii,cwsig);         break;
+    case MODE_CWU: dac_audio = DSP::process_cw(ii,qq,cwsig);         break;
   }
   dac_audio = radio.mute?0:constrain(dac_audio,-2048l,+2047l);
   dac_audio += 2048l;
@@ -1858,6 +1909,12 @@ void loop(void)
       case OPTION_NB_LEVEL4:       radio.nblevel = NB_LEVEL4;                      break;
       case OPTION_NB_LEVEL5:       radio.nblevel = NB_LEVEL5;                      break;
       case OPTION_NB_OFF:          radio.nblevel = NB_OFF;                         break;
+      case OPTION_LIMITER_LEVEL1:  radio.limiter = LIMITER_LEVEL1;                 break;
+      case OPTION_LIMITER_LEVEL2:  radio.limiter = LIMITER_LEVEL2;                 break;
+      case OPTION_LIMITER_LEVEL3:  radio.limiter = LIMITER_LEVEL3;                 break;
+      case OPTION_LIMITER_LEVEL4:  radio.limiter = LIMITER_LEVEL4;                 break;
+      case OPTION_LIMITER_LEVEL5:  radio.limiter = LIMITER_LEVEL5;                 break;
+      case OPTION_LIMITER_OFF:     radio.limiter = LIMITER_OFF;                    break;
       case OPTION_VERSION:         set_popup(sz_version,"VERSION:");               break;
       case OPTION_REBOOT:          about_reboot();                                 break;
       case OPTION_UPDATE:          about_update();                                 break;

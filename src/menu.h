@@ -32,7 +32,7 @@
 
 */
 
-#define NUM_MENU_ITEMS 11U
+#define NUM_MENU_ITEMS 12U
 #define NUM_MENU_OPTIONS 10U
 
 enum menu_top_t
@@ -46,6 +46,7 @@ enum menu_top_t
   MENU_SPECTRUM,
   MENU_JNR,
   MENU_NB,
+  MENU_LIMITER,
   MENU_ABOUT,
   MENU_EXIT
 };
@@ -106,6 +107,12 @@ enum option_value_t
   OPTION_NB_LEVEL3,
   OPTION_NB_LEVEL4,
   OPTION_NB_LEVEL5,
+  OPTION_LIMITER_OFF,
+  OPTION_LIMITER_LEVEL1,
+  OPTION_LIMITER_LEVEL2,
+  OPTION_LIMITER_LEVEL3,
+  OPTION_LIMITER_LEVEL4,
+  OPTION_LIMITER_LEVEL5,
   OPTION_VERSION,
   OPTION_REBOOT,
   OPTION_UPDATE,
@@ -207,6 +214,23 @@ menu_options[NUM_MENU_ITEMS] =
       {OPTION_NB_LEVEL4,"Level 4"},
       {OPTION_NB_LEVEL5,"Level 5"},
       {OPTION_NB_OFF,"Off"},
+      {OPTION_EXIT,"Exit"},
+      {OPTION_NONE,"None"},
+      {OPTION_NONE,"None"},
+      {OPTION_NONE,"None"}
+    }
+  },
+  {
+    MENU_LIMITER,
+    "Limiter",
+    7U,
+    {
+      {OPTION_LIMITER_LEVEL1,"Level 1"},
+      {OPTION_LIMITER_LEVEL2,"Level 2"},
+      {OPTION_LIMITER_LEVEL3,"Level 3"},
+      {OPTION_LIMITER_LEVEL4,"Level 4"},
+      {OPTION_LIMITER_LEVEL5,"Level 5"},
+      {OPTION_LIMITER_OFF,"Off"},
       {OPTION_EXIT,"Exit"},
       {OPTION_NONE,"None"},
       {OPTION_NONE,"None"},

@@ -356,12 +356,43 @@ namespace DSP
     Q = outQ;
   }
 
+  // Audio impulse limiter: after the bandwidth filter, before the AGC.
+  // Caps each sample at ratio x the recent average audio level, so a pop is
+  // never much louder than the speech and can't knock the AGC gain down.
+  static const float __not_in_flash_func(audio_limiter)(const float x, const uint8_t level)
+  {
+    static constexpr float ratio[6] = {0.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.5f};
+    static constexpr float up = 0.0016f;  // level rises in ~20 ms
+    static constexpr float down = 0.0001f;  // falls in ~320 ms, holds between words
+    static constexpr float release = 0.02f;    // gain recovers in ~1.6 ms, covers the ringing
+    static float avg = 1.0e-6f;
+    static float gain = 1.0f;
+
+    if (level == 0 || level > 5) return x;
+
+    const float a = fabsf(x);
+    const float lim = ratio[level] * avg;
+    const float g = (a > lim) ? lim / a : 1.0f;
+
+    // instant attack
+    gain = (g < gain) ? g : gain + (1.0f - gain) * release;
+
+    const float y = x * gain;
+    const float d = fabsf(y) - avg;
+    avg += d * ((d > 0.0f) ? up : down);
+
+    // never let the reference reach zero
+    if (avg < 1.0e-6f) avg = 1.0e-6f;
+    return y;
+  }
+
   static const int16_t __not_in_flash_func(process_ssb)(
     const int16_t in_i,
     const int16_t in_q,
     const uint32_t jnr_level,
     const uint8_t bw,
-    const uint8_t nb_level)
+    const uint8_t nb_level,
+    const uint8_t lim_level)
   {
     // set smeter ref for SSB
     meter_ref = AGC_AT_MINUS73_SSB;
@@ -386,8 +417,11 @@ namespace DSP
     // HPF
     const float audio_raw = FILTER::hpf_200f(audio_lpf);
 
+    // limiter
+    const float audio_lim = audio_limiter(audio_raw,lim_level);
+
     // notch
-    const float audio_notch = notch.process(audio_raw);
+    const float audio_notch = notch.process(audio_lim);
 
     // JNR
     const float audio_out = FILTER::jnr(audio_notch,jnr_level);
